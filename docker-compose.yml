@@ -1,0 +1,8 @@
+services:
+  api:
+    build: .
+    image: ml-anomaly-service
+    ports: ["8000:8000"]
+    environment:
+      MODEL_PATH: /app/models/model.joblib
+    restart: unless-stopped
