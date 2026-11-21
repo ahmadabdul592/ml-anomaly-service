@@ -25,7 +25,7 @@ scikit-learn `Pipeline`, served by a validated **FastAPI** REST API, packaged wi
 pip install -r requirements-dev.txt
 python -m anomsvc.train                  # writes models/model.joblib + model.json
 uvicorn anomsvc.api:app --port 8000      # interactive docs: http://localhost:8000/docs
-git 
+pytest -q
 ```
 Or with Docker: `docker build -t ml-anomaly-service . && docker run --rm -p 8000:8000 ml-anomaly-service`
 
@@ -38,7 +38,11 @@ curl -X POST localhost:8000/predict -H 'content-type: application/json' -d '{
 ```
 
 ## Model quality (synthetic data)
-Hold-out ROC-AUC 0.999 · PR-AUC 0.97 · precision 0.89 · recall 0.93 at a ~2% alert rate.
+  "roc_auc": 0.9991857142857142,
+  "pr_auc": 0.9717537757371094,
+  "precision": 0.8942307692307693,
+  "recall": 0.93,
+  "alert_rate": 0.0208 at a ~2% alert rate.
 These numbers come from synthetic data with injected anomalies, so they demonstrate the pipeline, **not** real-world accuracy.
 To use real data, replace `anomsvc/data.py` and the feature lists in `anomsvc/config.py`.
 
